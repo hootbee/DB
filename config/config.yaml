@@ -1,0 +1,62 @@
+# config/config.yaml
+
+database:
+  type: mysql
+  connector: 'mysqlconnector'
+  user: ''
+  password: '' # 실제 비밀번호 (보안 주의!)
+  host: 'localhost'
+  port: 3306
+  db_name: 'mqtt_project_db'
+
+data:
+  base_dir: 'data/raw/'
+  file_list:
+    - filename: 'bruteforce.csv'
+      assumed_attack_type: 'BruteForce_Attempt'
+      target_table: 'logs_bruteforce'
+    - filename: 'flood.csv'
+      assumed_attack_type: 'MQTT_Flood'
+      target_table: 'logs_flood'
+    - filename: 'legitimate_1w.csv'
+      assumed_attack_type: 'Legitimate'
+      target_table: 'logs_legitimate'
+    - filename: 'malaria.csv'
+      assumed_attack_type: 'Malware_Traffic'
+      target_table: 'logs_malware'
+    - filename: 'malformed.csv'
+      assumed_attack_type: 'Malformed_Packet'
+      target_table: 'logs_malformed'
+    - filename: 'slowite.csv'
+      assumed_attack_type: 'Slowloris_Like'
+      target_table: 'logs_slowloris'
+
+columns: # 초기 로드 및 이름 변경용
+  keep:
+    - 'frame.time_epoch'
+    - 'ip.src'
+    - 'ip.dst'
+    - 'tcp.srcport'
+    - 'tcp.dstport'
+    - 'frame.len'
+    - 'mqtt.clientid'
+    - 'mqtt.topic'
+    - 'mqtt.len'
+    - 'mqtt.msg'
+    - 'mqtt.msgtype'
+    - 'ip.proto'
+  rename:
+    'frame.time_epoch': 'timestamp_epoch'
+    'ip.src': 'ip_src'
+    'ip.dst': 'ip_dst'
+    'tcp.srcport': 'tcp_srcport'
+    'tcp.dstport': 'tcp_dstport'
+    'frame.len': 'frame_len'
+    'mqtt.clientid': 'client_id'
+    'mqtt.topic': 'topic'
+    'mqtt.len': 'mqtt_len'
+    'mqtt.msg': 'payload'
+    'mqtt.msgtype': 'msg_type'
+    'ip.proto': 'ip_proto'
+
+anomaly_labeling: {}
